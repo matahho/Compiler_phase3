@@ -2,3 +2,4 @@
 .vscode/
 out/
 *.iml
+.DS_Store
