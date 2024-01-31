@@ -3,6 +3,7 @@ package main;
 import main.ast.node.Program;
 import main.compileError.CompileError;
 import main.visitor.astPrinter.ASTPrinter;
+import main.visitor.typeChecker.TypeChecker;
 import main.visitor.nameAnalyzer.NameAnalyzer;
 import org.antlr.v4.runtime.*;
 import parsers.*;
@@ -19,14 +20,33 @@ public class UTL {
         NameAnalyzer nameAnalyzer = new NameAnalyzer();
         nameAnalyzer.visit(program);
 
-        if (!nameAnalyzer.nameErrors.isEmpty()){
-            for(CompileError compileError: nameAnalyzer.nameErrors)
+        TypeChecker typeChecker = new TypeChecker();
+        typeChecker.visit(program);
+
+        if (typeChecker.typeErrors.size() > 0) {
+            for (CompileError compileError : typeChecker.typeErrors)
                 System.out.println(compileError.getMessage());
+            return;
         }
-        else {
-            ASTPrinter astPrinter = new ASTPrinter();
-            astPrinter.visit(program);
-        }
+
+        System.out.println("Compilation was Successful!!");
+
+
+
+
+
+//        if (!nameAnalyzer.nameErrors.isEmpty()){
+//            for(CompileError compileError: nameAnalyzer.nameErrors)
+//                System.out.println(compileError.getMessage());
+//        }
+//        else {
+//            ASTPrinter astPrinter = new ASTPrinter();
+//            astPrinter.visit(program);
+//        }
+
+
+
+
 
     }
 }
